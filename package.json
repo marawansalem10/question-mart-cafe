@@ -1,0 +1,16 @@
+
+{
+  "name": "questionmartcafe",
+  "version": "1.0.0",
+  "description": "Question Mart & Cafe - Luxury Coffee Shop Platform",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend-customer && npm install && cd ../frontend-admin && npm install && cd ../desktop && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:customer": "cd frontend-customer && npm run dev",
+    "dev:admin": "cd frontend-admin && npm run dev",
+    "dev:desktop": "cd desktop && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

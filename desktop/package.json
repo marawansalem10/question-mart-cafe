@@ -1,0 +1,24 @@
+{
+  "name": "questionmartcafe-desktop",
+  "version": "1.0.0",
+  "description": "Desktop management app for Question Mart & Cafe",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "ts-node-dev src/main.ts",
+    "build": "tsc",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "electron": "^31.3.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  }
+}
