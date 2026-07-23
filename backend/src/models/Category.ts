@@ -10,6 +10,10 @@ const CategorySchema: Schema = new Schema(
       en: { type: String, required: true },
       ar: { type: String, required: true },
     },
+    description: {
+      en: { type: String, default: '' },
+      ar: { type: String, default: '' },
+    },
     slug: {
       type: String,
       required: true,
@@ -21,6 +25,10 @@ const CategorySchema: Schema = new Schema(
       required: true,
     },
     image: String,
+    displayOrder: {
+      type: Number,
+      default: 0,
+    },
     isActive: {
       type: Boolean,
       default: true,

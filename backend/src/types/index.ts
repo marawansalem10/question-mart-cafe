@@ -6,7 +6,7 @@ export interface IUser {
   email: string;
   password: string;
   phone?: string;
-  role: 'customer' | 'admin' | 'staff';
+  role: 'customer' | 'staff' | 'admin' | 'super_admin';
   language: 'en' | 'ar';
   createdAt?: Date;
   updatedAt?: Date;
@@ -14,22 +14,30 @@ export interface IUser {
 
 export interface ICategory {
   name: { en: string; ar: string };
+  description?: { en: string; ar: string };
   slug: string;
   type: 'drink' | 'bakery' | 'food';
   image?: string;
+  displayOrder?: number;
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface IProductSize {
+  name: string;
+  price: number;
 }
 
 export interface IProduct {
   name: { en: string; ar: string };
   description: { en: string; ar: string };
   category: mongoose.Types.ObjectId | ICategory;
-  price: number;
-  images: string[];
+  sizes: IProductSize[];
+  image?: string;
   isAvailable: boolean;
   isFeatured: boolean;
+  displayOrder?: number;
   tags: string[];
   createdAt?: Date;
   updatedAt?: Date;

@@ -4,6 +4,14 @@ import { IProduct } from '../types';
 
 interface IProductDocument extends IProduct, Document {}
 
+const ProductSizeSchema: Schema = new Schema(
+  {
+    name: { type: String, required: true },
+    price: { type: Number, required: true, min: 0 },
+  },
+  { _id: false }
+);
+
 const ProductSchema: Schema = new Schema(
   {
     name: {
@@ -19,15 +27,11 @@ const ProductSchema: Schema = new Schema(
       ref: 'Category',
       required: true,
     },
-    price: {
-      type: Number,
+    sizes: {
+      type: [ProductSizeSchema],
       required: true,
-      min: 0,
     },
-    images: {
-      type: [String],
-      default: [],
-    },
+    image: String,
     isAvailable: {
       type: Boolean,
       default: true,
@@ -35,6 +39,10 @@ const ProductSchema: Schema = new Schema(
     isFeatured: {
       type: Boolean,
       default: false,
+    },
+    displayOrder: {
+      type: Number,
+      default: 0,
     },
     tags: {
       type: [String],
