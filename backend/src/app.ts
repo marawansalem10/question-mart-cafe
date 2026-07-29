@@ -10,6 +10,10 @@ import categoryRoutes from './routes/categoryRoutes';
 import productRoutes from './routes/productRoutes';
 import orderRoutes from './routes/orderRoutes';
 import reservationRoutes from './routes/reservationRoutes';
+import reviewRoutes from './routes/reviewRoutes';
+import loyaltyRoutes from './routes/loyaltyRoutes';
+import rewardRoutes from './routes/rewardRoutes';
+import branchRoutes from './routes/branchRoutes';
 
 dotenv.config();
 
@@ -34,6 +38,10 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reservations', reservationRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/loyalty', loyaltyRoutes);
+app.use('/api/rewards', rewardRoutes);
+app.use('/api/branches', branchRoutes);
 
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
