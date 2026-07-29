@@ -3,11 +3,6 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import { generateToken } from '../utils/jwt';
-import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (any & { _id: mongoose.Types.ObjectId }) | null;
-}
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -88,7 +83,7 @@ export const login = async (req: Request, res: Response) => {
 // @desc    Get current user
 // @route   GET /api/auth/me
 // @access  Private
-export const getMe = async (req: AuthRequest, res: Response) => {
+export const getMe = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });

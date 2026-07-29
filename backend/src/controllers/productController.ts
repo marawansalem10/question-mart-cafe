@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import Product from '../models/Product';
 import Category from '../models/Category';
-import mongoose from 'mongoose';
+import { isValidObjectId } from '../utils/helpers';
 
 // @desc    Get all available products, sorted by displayOrder, populate category
 // @route   GET /api/products
@@ -25,7 +25,7 @@ export const getProductById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid product ID' });
     }
 
@@ -53,7 +53,7 @@ export const createProduct = async (req: Request, res: Response) => {
     }
 
     // Validate category exists
-    if (!mongoose.Types.ObjectId.isValid(category)) {
+    if (!isValidObjectId(category)) {
       return res.status(400).json({ message: 'Invalid category ID' });
     }
     const categoryExists = await Category.findById(category);
@@ -95,13 +95,13 @@ export const updateProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, description, category, sizes, image, isAvailable, isFeatured, displayOrder, tags } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid product ID' });
     }
 
     // Validate category if provided
     if (category) {
-      if (!mongoose.Types.ObjectId.isValid(category)) {
+      if (!isValidObjectId(category)) {
         return res.status(400).json({ message: 'Invalid category ID' });
       }
       const categoryExists = await Category.findById(category);
@@ -154,7 +154,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid product ID' });
     }
 

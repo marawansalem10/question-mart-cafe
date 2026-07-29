@@ -1,16 +1,12 @@
 
 import { Request, Response } from 'express';
 import Reservation from '../models/Reservation';
-import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (any & { _id: mongoose.Types.ObjectId }) | null;
-}
+import { isValidObjectId } from '../utils/helpers';
 
 // @desc    Create new reservation
 // @route   POST /api/reservations
 // @access  Private/Customer
-export const createReservation = async (req: AuthRequest, res: Response) => {
+export const createReservation = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -65,7 +61,7 @@ export const createReservation = async (req: AuthRequest, res: Response) => {
 // @desc    Get current user's reservations
 // @route   GET /api/reservations/my-reservations
 // @access  Private/Customer
-export const getMyReservations = async (req: AuthRequest, res: Response) => {
+export const getMyReservations = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -84,7 +80,7 @@ export const getMyReservations = async (req: AuthRequest, res: Response) => {
 // @desc    Get all reservations (admin only)
 // @route   GET /api/reservations
 // @access  Private/Admin/Super Admin
-export const getAllReservations = async (req: AuthRequest, res: Response) => {
+export const getAllReservations = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -103,7 +99,7 @@ export const getAllReservations = async (req: AuthRequest, res: Response) => {
 // @desc    Get single reservation by ID
 // @route   GET /api/reservations/:id
 // @access  Private
-export const getReservationById = async (req: AuthRequest, res: Response) => {
+export const getReservationById = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -111,7 +107,7 @@ export const getReservationById = async (req: AuthRequest, res: Response) => {
 
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid reservation ID' });
     }
 
@@ -140,7 +136,7 @@ export const getReservationById = async (req: AuthRequest, res: Response) => {
 // @desc    Update reservation status (admin only)
 // @route   PATCH /api/reservations/:id/status
 // @access  Private/Admin/Super Admin
-export const updateReservationStatus = async (req: AuthRequest, res: Response) => {
+export const updateReservationStatus = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -149,7 +145,7 @@ export const updateReservationStatus = async (req: AuthRequest, res: Response) =
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid reservation ID' });
     }
 
@@ -182,7 +178,7 @@ export const updateReservationStatus = async (req: AuthRequest, res: Response) =
 // @desc    Delete/cancel reservation
 // @route   DELETE /api/reservations/:id
 // @access  Private
-export const deleteReservation = async (req: AuthRequest, res: Response) => {
+export const deleteReservation = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -190,7 +186,7 @@ export const deleteReservation = async (req: AuthRequest, res: Response) => {
 
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid reservation ID' });
     }
 

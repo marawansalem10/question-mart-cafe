@@ -3,13 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import { IUser } from '../types';
-import mongoose from 'mongoose';
 
-interface AuthRequest extends Request {
-  user?: (IUser & { _id: mongoose.Types.ObjectId }) | null;
-}
-
-export const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const protect = async (req: Request, res: Response, next: NextFunction) => {
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {

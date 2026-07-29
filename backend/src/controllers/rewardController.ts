@@ -4,18 +4,7 @@ import Reward from '../models/Reward';
 import Loyalty from '../models/Loyalty';
 import PointsTransaction from '../models/PointsTransaction';
 import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (any & { _id: mongoose.Types.ObjectId }) | null;
-}
-
-// Helper function to calculate membership level from points
-const calculateMembershipLevel = (points: number): 'bronze' | 'silver' | 'gold' | 'platinum' => {
-  if (points >= 5000) return 'platinum';
-  if (points >= 2500) return 'gold';
-  if (points >= 1000) return 'silver';
-  return 'bronze';
-};
+import { calculateMembershipLevel, isValidObjectId } from '../utils/helpers';
 
 // @desc    Get all active rewards
 // @route   GET /api/rewards
@@ -32,7 +21,7 @@ export const getRewards = async (req: Request, res: Response) => {
 // @desc    Create new reward
 // @route   POST /api/rewards
 // @access  Private/Admin/Super Admin
-export const createReward = async (req: AuthRequest, res: Response) => {
+export const createReward = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -66,7 +55,7 @@ export const createReward = async (req: AuthRequest, res: Response) => {
 // @desc    Update reward
 // @route   PUT /api/rewards/:id
 // @access  Private/Admin/Super Admin
-export const updateReward = async (req: AuthRequest, res: Response) => {
+export const updateReward = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -75,7 +64,7 @@ export const updateReward = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { name, description, pointsRequired, image, isActive } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid reward ID' });
     }
 
@@ -107,7 +96,7 @@ export const updateReward = async (req: AuthRequest, res: Response) => {
 // @desc    Delete reward
 // @route   DELETE /api/rewards/:id
 // @access  Private/Admin/Super Admin
-export const deleteReward = async (req: AuthRequest, res: Response) => {
+export const deleteReward = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -115,7 +104,7 @@ export const deleteReward = async (req: AuthRequest, res: Response) => {
 
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid reward ID' });
     }
 
@@ -135,7 +124,7 @@ export const deleteReward = async (req: AuthRequest, res: Response) => {
 // @desc    Redeem reward
 // @route   POST /api/rewards/:id/redeem
 // @access  Private/Customer
-export const redeemReward = async (req: AuthRequest, res: Response) => {
+export const redeemReward = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -143,7 +132,7 @@ export const redeemReward = async (req: AuthRequest, res: Response) => {
 
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid reward ID' });
     }
 
@@ -204,7 +193,7 @@ export const redeemReward = async (req: AuthRequest, res: Response) => {
 // @desc    Get redemption history for current user
 // @route   GET /api/rewards/history/me
 // @access  Private/Customer
-export const getRedemptionHistory = async (req: AuthRequest, res: Response) => {
+export const getRedemptionHistory = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });

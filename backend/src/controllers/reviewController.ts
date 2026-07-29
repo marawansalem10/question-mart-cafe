@@ -3,15 +3,12 @@ import { Request, Response } from 'express';
 import Review from '../models/Review';
 import Product from '../models/Product';
 import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (any & { _id: mongoose.Types.ObjectId }) | null;
-}
+import { isValidObjectId } from '../utils/helpers';
 
 // @desc    Create new review
 // @route   POST /api/reviews
 // @access  Private/Customer
-export const createReview = async (req: AuthRequest, res: Response) => {
+export const createReview = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -74,7 +71,7 @@ export const createReview = async (req: AuthRequest, res: Response) => {
 // @desc    Get all reviews (admin only)
 // @route   GET /api/reviews
 // @access  Private/Admin/Super Admin
-export const getAllReviews = async (req: AuthRequest, res: Response) => {
+export const getAllReviews = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -98,7 +95,7 @@ export const getProductReviews = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
+    if (!isValidObjectId(productId)) {
       return res.status(400).json({ message: 'Invalid product ID' });
     }
 
@@ -116,7 +113,7 @@ export const getProductReviews = async (req: Request, res: Response) => {
 // @desc    Update review
 // @route   PUT /api/reviews/:id
 // @access  Private
-export const updateReview = async (req: AuthRequest, res: Response) => {
+export const updateReview = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -125,7 +122,7 @@ export const updateReview = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { rating, comment } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid review ID' });
     }
 
@@ -175,7 +172,7 @@ export const updateReview = async (req: AuthRequest, res: Response) => {
 // @desc    Approve/reject review (admin only)
 // @route   PATCH /api/reviews/:id/approve
 // @access  Private/Admin/Super Admin
-export const approveReview = async (req: AuthRequest, res: Response) => {
+export const approveReview = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -184,7 +181,7 @@ export const approveReview = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { isApproved } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid review ID' });
     }
 
@@ -213,7 +210,7 @@ export const approveReview = async (req: AuthRequest, res: Response) => {
 // @desc    Delete review
 // @route   DELETE /api/reviews/:id
 // @access  Private
-export const deleteReview = async (req: AuthRequest, res: Response) => {
+export const deleteReview = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -221,7 +218,7 @@ export const deleteReview = async (req: AuthRequest, res: Response) => {
 
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid review ID' });
     }
 

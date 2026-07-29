@@ -1,11 +1,7 @@
 
 import { Request, Response } from 'express';
 import Branch from '../models/Branch';
-import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (any & { _id: mongoose.Types.ObjectId }) | null;
-}
+import { isValidObjectId } from '../utils/helpers';
 
 // @desc    Get all active branches
 // @route   GET /api/branches
@@ -26,7 +22,7 @@ export const getBranchById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid branch ID' });
     }
 
@@ -45,7 +41,7 @@ export const getBranchById = async (req: Request, res: Response) => {
 // @desc    Create new branch
 // @route   POST /api/branches
 // @access  Private/Admin/Super Admin
-export const createBranch = async (req: AuthRequest, res: Response) => {
+export const createBranch = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -110,7 +106,7 @@ export const createBranch = async (req: AuthRequest, res: Response) => {
 // @desc    Update branch
 // @route   PUT /api/branches/:id
 // @access  Private/Admin/Super Admin
-export const updateBranch = async (req: AuthRequest, res: Response) => {
+export const updateBranch = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -119,7 +115,7 @@ export const updateBranch = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { name, address, phone, email, location, isActive } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid branch ID' });
     }
 
@@ -173,7 +169,7 @@ export const updateBranch = async (req: AuthRequest, res: Response) => {
 // @desc    Delete branch
 // @route   DELETE /api/branches/:id
 // @access  Private/Admin/Super Admin
-export const deleteBranch = async (req: AuthRequest, res: Response) => {
+export const deleteBranch = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -181,7 +177,7 @@ export const deleteBranch = async (req: AuthRequest, res: Response) => {
 
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid branch ID' });
     }
 
@@ -201,7 +197,7 @@ export const deleteBranch = async (req: AuthRequest, res: Response) => {
 // @desc    Update branch status (activate/deactivate)
 // @route   PATCH /api/branches/:id/status
 // @access  Private/Admin/Super Admin
-export const updateBranchStatus = async (req: AuthRequest, res: Response) => {
+export const updateBranchStatus = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -210,7 +206,7 @@ export const updateBranchStatus = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { isActive } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid branch ID' });
     }
 

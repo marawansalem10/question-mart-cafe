@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express';
 import Category from '../models/Category';
-import mongoose from 'mongoose';
+import { isValidObjectId } from '../utils/helpers';
 
 // @desc    Get all active categories, sorted by displayOrder
 // @route   GET /api/categories
@@ -22,7 +22,7 @@ export const getCategoryById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid category ID' });
     }
 
@@ -84,7 +84,7 @@ export const updateCategory = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, description, slug, type, image, displayOrder, isActive } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid category ID' });
     }
 
@@ -129,7 +129,7 @@ export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid category ID' });
     }
 

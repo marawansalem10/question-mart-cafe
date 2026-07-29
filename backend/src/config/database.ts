@@ -1,10 +1,10 @@
 
 import mongoose from 'mongoose';
+import config from './env';
 
 const connectDB = async (): Promise<void> => {
   try {
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/questionmartcafe';
-    await mongoose.connect(mongoURI, {
+    await mongoose.connect(config.mongoUri, {
       serverSelectionTimeoutMS: 30000,
       family: 4, // Force IPv4
     });

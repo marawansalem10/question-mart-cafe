@@ -1,14 +1,9 @@
 
 import { Request, Response, NextFunction } from 'express';
 import { IUser } from '../types';
-import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (IUser & { _id: mongoose.Types.ObjectId }) | null;
-}
 
 export const authorize = (...roles: string[]) => {
-  return (req: AuthRequest, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized to access this route' });
     }

@@ -3,23 +3,7 @@ import { Request, Response } from 'express';
 import Loyalty from '../models/Loyalty';
 import PointsTransaction from '../models/PointsTransaction';
 import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (any & { _id: mongoose.Types.ObjectId }) | null;
-}
-
-// Helper function to calculate membership level from points
-const calculateMembershipLevel = (points: number): 'bronze' | 'silver' | 'gold' | 'platinum' => {
-  if (points >= 5000) return 'platinum';
-  if (points >= 2500) return 'gold';
-  if (points >= 1000) return 'silver';
-  return 'bronze';
-};
-
-// Helper function to generate unique QR code
-const generateQRCode = (): string => {
-  return `QMC-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-};
+import { calculateMembershipLevel, generateQRCode, isValidObjectId } from '../utils/helpers';
 
 // Helper function to create points transaction
 const createPointsTransaction = async (
@@ -39,7 +23,7 @@ const createPointsTransaction = async (
 // @desc    Get current user's loyalty account
 // @route   GET /api/loyalty/me
 // @access  Private/Customer
-export const getMyLoyalty = async (req: AuthRequest, res: Response) => {
+export const getMyLoyalty = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -67,7 +51,7 @@ export const getMyLoyalty = async (req: AuthRequest, res: Response) => {
 // @desc    Get user's loyalty account by ID (admin only)
 // @route   GET /api/loyalty/:userId
 // @access  Private/Admin/Super Admin
-export const getUserLoyalty = async (req: AuthRequest, res: Response) => {
+export const getUserLoyalty = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -75,7 +59,7 @@ export const getUserLoyalty = async (req: AuthRequest, res: Response) => {
 
     const { userId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    if (!isValidObjectId(userId)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 
@@ -101,7 +85,7 @@ export const getUserLoyalty = async (req: AuthRequest, res: Response) => {
 // @desc    Add points to loyalty account (admin only)
 // @route   PATCH /api/loyalty/:userId/add-points
 // @access  Private/Admin/Super Admin
-export const addPoints = async (req: AuthRequest, res: Response) => {
+export const addPoints = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -110,7 +94,7 @@ export const addPoints = async (req: AuthRequest, res: Response) => {
     const { userId } = req.params;
     const { amount, description } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    if (!isValidObjectId(userId)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 
@@ -156,7 +140,7 @@ export const addPoints = async (req: AuthRequest, res: Response) => {
 // @desc    Remove points from loyalty account (admin only)
 // @route   PATCH /api/loyalty/:userId/remove-points
 // @access  Private/Admin/Super Admin
-export const removePoints = async (req: AuthRequest, res: Response) => {
+export const removePoints = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -165,7 +149,7 @@ export const removePoints = async (req: AuthRequest, res: Response) => {
     const { userId } = req.params;
     const { amount, description } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    if (!isValidObjectId(userId)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 
@@ -210,7 +194,7 @@ export const removePoints = async (req: AuthRequest, res: Response) => {
 // @desc    Update membership level (admin only)
 // @route   PATCH /api/loyalty/:userId/membership
 // @access  Private/Admin/Super Admin
-export const updateMembership = async (req: AuthRequest, res: Response) => {
+export const updateMembership = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -219,7 +203,7 @@ export const updateMembership = async (req: AuthRequest, res: Response) => {
     const { userId } = req.params;
     const { membershipLevel } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    if (!isValidObjectId(userId)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 
@@ -253,7 +237,7 @@ export const updateMembership = async (req: AuthRequest, res: Response) => {
 // @desc    Regenerate QR code (admin only)
 // @route   PATCH /api/loyalty/:userId/regenerate-qr
 // @access  Private/Admin/Super Admin
-export const regenerateQR = async (req: AuthRequest, res: Response) => {
+export const regenerateQR = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -261,7 +245,7 @@ export const regenerateQR = async (req: AuthRequest, res: Response) => {
 
     const { userId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    if (!isValidObjectId(userId)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 

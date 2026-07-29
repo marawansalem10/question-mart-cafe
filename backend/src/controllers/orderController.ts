@@ -3,10 +3,7 @@ import { Request, Response } from 'express';
 import Order from '../models/Order';
 import Product from '../models/Product';
 import mongoose from 'mongoose';
-
-interface AuthRequest extends Request {
-  user?: (any & { _id: mongoose.Types.ObjectId }) | null;
-}
+import { isValidObjectId } from '../utils/helpers';
 
 interface OrderItemInput {
   product: string;
@@ -19,7 +16,7 @@ interface OrderItemInput {
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private/Customer
-export const createOrder = async (req: AuthRequest, res: Response) => {
+export const createOrder = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -45,7 +42,7 @@ export const createOrder = async (req: AuthRequest, res: Response) => {
     let subtotal = 0;
 
     for (const item of items) {
-      if (!mongoose.Types.ObjectId.isValid(item.product)) {
+      if (!isValidObjectId(item.product)) {
         return res.status(400).json({ message: `Invalid product ID: ${item.product}` });
       }
 
@@ -129,7 +126,7 @@ export const createOrder = async (req: AuthRequest, res: Response) => {
 // @desc    Get current user's orders
 // @route   GET /api/orders/my-orders
 // @access  Private/Customer
-export const getMyOrders = async (req: AuthRequest, res: Response) => {
+export const getMyOrders = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -149,7 +146,7 @@ export const getMyOrders = async (req: AuthRequest, res: Response) => {
 // @desc    Get single order by ID
 // @route   GET /api/orders/:id
 // @access  Private
-export const getOrderById = async (req: AuthRequest, res: Response) => {
+export const getOrderById = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -157,7 +154,7 @@ export const getOrderById = async (req: AuthRequest, res: Response) => {
 
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid order ID' });
     }
 
@@ -188,7 +185,7 @@ export const getOrderById = async (req: AuthRequest, res: Response) => {
 // @desc    Get all orders (admin only)
 // @route   GET /api/orders
 // @access  Private/Admin/Super Admin
-export const getAllOrders = async (req: AuthRequest, res: Response) => {
+export const getAllOrders = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -208,7 +205,7 @@ export const getAllOrders = async (req: AuthRequest, res: Response) => {
 // @desc    Update order status (admin only)
 // @route   PATCH /api/orders/:id/status
 // @access  Private/Admin/Super Admin
-export const updateOrderStatus = async (req: AuthRequest, res: Response) => {
+export const updateOrderStatus = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -217,7 +214,7 @@ export const updateOrderStatus = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { orderStatus, paymentStatus } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid order ID' });
     }
 
