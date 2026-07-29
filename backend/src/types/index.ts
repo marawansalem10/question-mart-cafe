@@ -105,3 +105,28 @@ export interface IBranch {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface IOrderItem {
+  product: mongoose.Types.ObjectId | IProduct;
+  productName: string;
+  selectedSize: string;
+  unitPrice: number;
+  quantity: number;
+  totalPrice: number;
+}
+
+export interface IOrder {
+  customer: mongoose.Types.ObjectId | IUser;
+  items: IOrderItem[];
+  subtotal: number;
+  discount: number;
+  serviceFee: number;
+  total: number;
+  paymentMethod: 'cash' | 'card' | 'wallet';
+  paymentStatus: 'pending' | 'paid' | 'failed';
+  orderType: 'dine_in' | 'takeaway' | 'delivery';
+  orderStatus: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed' | 'cancelled';
+  notes?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
