@@ -1,0 +1,1319 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Question Mart & Cafe API",
+    "description": "Backend API for Question Mart & Cafe - A cafe management system with ordering, reservations, reviews, and loyalty program",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support",
+      "email": "support@questionmartcafe.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Development server"
+    },
+    {
+      "url": "https://api.questionmartcafe.com",
+      "description": "Production server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" },
+          "role": { "type": "string", "enum": ["customer", "staff", "admin", "super_admin"] },
+          "language": { "type": "string", "enum": ["en", "ar"] },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "description": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "category": { "type": "string" },
+          "sizes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "price": { "type": "number" }
+              }
+            }
+          },
+          "image": { "type": "string" },
+          "isAvailable": { "type": "boolean" },
+          "isFeatured": { "type": "boolean" },
+          "displayOrder": { "type": "number" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "description": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "slug": { "type": "string" },
+          "type": { "type": "string", "enum": ["drink", "bakery", "food"] },
+          "image": { "type": "string" },
+          "displayOrder": { "type": "number" },
+          "isActive": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "customer": { "type": "string" },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product": { "type": "string" },
+                "productName": { "type": "string" },
+                "selectedSize": { "type": "string" },
+                "unitPrice": { "type": "number" },
+                "quantity": { "type": "number" },
+                "totalPrice": { "type": "number" }
+              }
+            }
+          },
+          "subtotal": { "type": "number" },
+          "discount": { "type": "number" },
+          "serviceFee": { "type": "number" },
+          "total": { "type": "number" },
+          "paymentMethod": { "type": "string", "enum": ["cash", "card", "wallet"] },
+          "paymentStatus": { "type": "string", "enum": ["pending", "paid", "failed"] },
+          "orderType": { "type": "string", "enum": ["dine_in", "takeaway", "delivery"] },
+          "orderStatus": { "type": "string", "enum": ["pending", "confirmed", "preparing", "ready", "completed", "cancelled"] },
+          "notes": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Reservation": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "customer": { "type": "string" },
+          "date": { "type": "string", "format": "date" },
+          "time": { "type": "string" },
+          "guests": { "type": "number" },
+          "seatingType": { "type": "string", "enum": ["indoor", "outdoor"] },
+          "notes": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled", "completed"] },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "customer": { "type": "string" },
+          "product": { "type": "string" },
+          "rating": { "type": "number", "minimum": 1, "maximum": 5 },
+          "comment": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "isApproved": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Loyalty": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "customer": { "type": "string" },
+          "membershipLevel": { "type": "string", "enum": ["bronze", "silver", "gold", "platinum"] },
+          "qrCode": { "type": "string" },
+          "points": { "type": "number" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Reward": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "description": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "pointsRequired": { "type": "number" },
+          "image": { "type": "string" },
+          "isActive": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Branch": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "en": { "type": "string" },
+              "ar": { "type": "string" }
+            }
+          },
+          "phone": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "location": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["Point"] },
+              "coordinates": { "type": "array", "items": { "type": "number" } }
+            }
+          },
+          "isActive": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "password"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "minLength": 8 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "email": { "type": "string" },
+                    "role": { "type": "string" },
+                    "language": { "type": "string" },
+                    "token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login user",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "email": { "type": "string" },
+                    "role": { "type": "string" },
+                    "language": { "type": "string" },
+                    "token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Invalid credentials", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "summary": "Get current user",
+        "tags": ["Authentication"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Current user data",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+          },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/users/profile": {
+      "get": {
+        "summary": "Get user profile",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "User profile", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "put": {
+        "summary": "Update user profile",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "language": { "type": "string", "enum": ["en", "ar"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Profile updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "summary": "Get all available products",
+        "tags": ["Products"],
+        "responses": {
+          "200": { "description": "List of products", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Product" } } } } }
+        }
+      },
+      "post": {
+        "summary": "Create new product",
+        "tags": ["Products"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "category", "sizes"],
+                "properties": {
+                  "name": {
+                    "type": "object",
+                    "required": ["en", "ar"],
+                    "properties": {
+                      "en": { "type": "string" },
+                      "ar": { "type": "string" }
+                    }
+                  },
+                  "description": {
+                    "type": "object",
+                    "properties": {
+                      "en": { "type": "string" },
+                      "ar": { "type": "string" }
+                    }
+                  },
+                  "category": { "type": "string" },
+                  "sizes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["name", "price"],
+                      "properties": {
+                        "name": { "type": "string" },
+                        "price": { "type": "number" }
+                      }
+                    }
+                  },
+                  "image": { "type": "string" },
+                  "isAvailable": { "type": "boolean" },
+                  "isFeatured": { "type": "boolean" },
+                  "displayOrder": { "type": "number" },
+                  "tags": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Product created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Product" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "summary": "Get product by ID",
+        "tags": ["Products"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Product details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Product" } } } },
+          "404": { "description": "Product not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "put": {
+        "summary": "Update product",
+        "tags": ["Products"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "object" },
+                  "description": { "type": "object" },
+                  "category": { "type": "string" },
+                  "sizes": { "type": "array" },
+                  "image": { "type": "string" },
+                  "isAvailable": { "type": "boolean" },
+                  "isFeatured": { "type": "boolean" },
+                  "displayOrder": { "type": "number" },
+                  "tags": { "type": "array" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Product updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Product" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete product (soft delete)",
+        "tags": ["Products"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Product deactivated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "summary": "Get all active categories",
+        "tags": ["Categories"],
+        "responses": {
+          "200": { "description": "List of categories", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Category" } } } } }
+        }
+      },
+      "post": {
+        "summary": "Create new category",
+        "tags": ["Categories"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "slug", "type"],
+                "properties": {
+                  "name": {
+                    "type": "object",
+                    "required": ["en", "ar"],
+                    "properties": {
+                      "en": { "type": "string" },
+                      "ar": { "type": "string" }
+                    }
+                  },
+                  "description": { "type": "object" },
+                  "slug": { "type": "string" },
+                  "type": { "type": "string", "enum": ["drink", "bakery", "food"] },
+                  "image": { "type": "string" },
+                  "displayOrder": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Category created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Category" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/categories/{id}": {
+      "get": {
+        "summary": "Get category by ID",
+        "tags": ["Categories"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Category details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Category" } } } },
+          "404": { "description": "Category not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "put": {
+        "summary": "Update category",
+        "tags": ["Categories"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "object" },
+                  "description": { "type": "object" },
+                  "slug": { "type": "string" },
+                  "type": { "type": "string" },
+                  "image": { "type": "string" },
+                  "displayOrder": { "type": "number" },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Category updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Category" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete category (soft delete)",
+        "tags": ["Categories"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Category deactivated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "summary": "Get all orders (admin only)",
+        "tags": ["Orders"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of orders", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Order" } } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "post": {
+        "summary": "Create new order",
+        "tags": ["Orders"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["items", "paymentMethod", "orderType"],
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["product", "selectedSize", "quantity"],
+                      "properties": {
+                        "product": { "type": "string" },
+                        "selectedSize": { "type": "string" },
+                        "quantity": { "type": "number" }
+                      }
+                    }
+                  },
+                  "paymentMethod": { "type": "string", "enum": ["cash", "card", "wallet"] },
+                  "orderType": { "type": "string", "enum": ["dine_in", "takeaway", "delivery"] },
+                  "discount": { "type": "number" },
+                  "serviceFee": { "type": "number" },
+                  "notes": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Order created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/orders/my-orders": {
+      "get": {
+        "summary": "Get current user's orders",
+        "tags": ["Orders"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of user orders", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Order" } } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/orders/{id}": {
+      "get": {
+        "summary": "Get order by ID",
+        "tags": ["Orders"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Order details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Not your order", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "Order not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/orders/{id}/status": {
+      "patch": {
+        "summary": "Update order status (admin only)",
+        "tags": ["Orders"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderStatus": { "type": "string", "enum": ["pending", "confirmed", "preparing", "ready", "completed", "cancelled"] },
+                  "paymentStatus": { "type": "string", "enum": ["pending", "paid", "failed"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Order status updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/reservations": {
+      "get": {
+        "summary": "Get all reservations (admin only)",
+        "tags": ["Reservations"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of reservations", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Reservation" } } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "post": {
+        "summary": "Create new reservation",
+        "tags": ["Reservations"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["date", "time", "guests", "seatingType"],
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "time": { "type": "string" },
+                  "guests": { "type": "number", "minimum": 1 },
+                  "seatingType": { "type": "string", "enum": ["indoor", "outdoor"] },
+                  "notes": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Reservation created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Reservation" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/reservations/my-reservations": {
+      "get": {
+        "summary": "Get current user's reservations",
+        "tags": ["Reservations"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of user reservations", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Reservation" } } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/reservations/{id}": {
+      "get": {
+        "summary": "Get reservation by ID",
+        "tags": ["Reservations"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Reservation details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Reservation" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Not your reservation", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "Reservation not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete/cancel reservation",
+        "tags": ["Reservations"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Reservation deleted/cancelled", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/reservations/{id}/status": {
+      "patch": {
+        "summary": "Update reservation status (admin only)",
+        "tags": ["Reservations"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled", "completed"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Reservation status updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Reservation" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/reviews": {
+      "get": {
+        "summary": "Get all reviews (admin only)",
+        "tags": ["Reviews"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of reviews", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Review" } } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "post": {
+        "summary": "Create new review",
+        "tags": ["Reviews"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["product", "rating"],
+                "properties": {
+                  "product": { "type": "string" },
+                  "rating": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "comment": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Review created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Review" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/reviews/product/{productId}": {
+      "get": {
+        "summary": "Get approved reviews for a product",
+        "tags": ["Reviews"],
+        "parameters": [{ "name": "productId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "List of approved reviews", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Review" } } } } }
+        }
+      }
+    },
+    "/api/reviews/{id}": {
+      "put": {
+        "summary": "Update review",
+        "tags": ["Reviews"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "comment": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Review updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Review" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Not your review", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete review",
+        "tags": ["Reviews"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Review deleted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Not your review", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/reviews/{id}/approve": {
+      "patch": {
+        "summary": "Approve/reject review (admin only)",
+        "tags": ["Reviews"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["isApproved"],
+                "properties": {
+                  "isApproved": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Review approval updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Review" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/loyalty/me": {
+      "get": {
+        "summary": "Get current user's loyalty account",
+        "tags": ["Loyalty"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Loyalty account details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Loyalty" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/loyalty/{userId}": {
+      "get": {
+        "summary": "Get user's loyalty account by ID (admin only)",
+        "tags": ["Loyalty"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Loyalty account details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Loyalty" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/loyalty/{userId}/add-points": {
+      "patch": {
+        "summary": "Add points to loyalty account (admin only)",
+        "tags": ["Loyalty"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["amount", "description"],
+                "properties": {
+                  "amount": { "type": "number", "minimum": 1 },
+                  "description": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Points added", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Loyalty" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/loyalty/{userId}/remove-points": {
+      "patch": {
+        "summary": "Remove points from loyalty account (admin only)",
+        "tags": ["Loyalty"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["amount", "description"],
+                "properties": {
+                  "amount": { "type": "number", "minimum": 1 },
+                  "description": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Points removed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Loyalty" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/loyalty/{userId}/membership": {
+      "patch": {
+        "summary": "Update membership level (admin only)",
+        "tags": ["Loyalty"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["membershipLevel"],
+                "properties": {
+                  "membershipLevel": { "type": "string", "enum": ["bronze", "silver", "gold", "platinum"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Membership updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Loyalty" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/loyalty/{userId}/regenerate-qr": {
+      "patch": {
+        "summary": "Regenerate QR code (admin only)",
+        "tags": ["Loyalty"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "QR code regenerated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Loyalty" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/rewards": {
+      "get": {
+        "summary": "Get all active rewards",
+        "tags": ["Rewards"],
+        "responses": {
+          "200": { "description": "List of active rewards", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Reward" } } } } }
+        }
+      },
+      "post": {
+        "summary": "Create new reward",
+        "tags": ["Rewards"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "pointsRequired"],
+                "properties": {
+                  "name": {
+                    "type": "object",
+                    "required": ["en", "ar"],
+                    "properties": {
+                      "en": { "type": "string" },
+                      "ar": { "type": "string" }
+                    }
+                  },
+                  "description": { "type": "object" },
+                  "pointsRequired": { "type": "number", "minimum": 0 },
+                  "image": { "type": "string" },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Reward created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Reward" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/rewards/{id}": {
+      "put": {
+        "summary": "Update reward",
+        "tags": ["Rewards"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "object" },
+                  "description": { "type": "object" },
+                  "pointsRequired": { "type": "number" },
+                  "image": { "type": "string" },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Reward updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Reward" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete reward",
+        "tags": ["Rewards"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Reward deleted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/rewards/{id}/redeem": {
+      "post": {
+        "summary": "Redeem reward",
+        "tags": ["Rewards"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Reward redeemed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Loyalty" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "400": { "description": "Insufficient points or reward not active", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/rewards/history/me": {
+      "get": {
+        "summary": "Get redemption history for current user",
+        "tags": ["Rewards"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of redemption transactions", "content": { "application/json": { "schema": { "type": "array", "items": { "type": "object" } } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/branches": {
+      "get": {
+        "summary": "Get all active branches",
+        "tags": ["Branches"],
+        "responses": {
+          "200": { "description": "List of branches", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Branch" } } } } }
+        }
+      },
+      "post": {
+        "summary": "Create new branch",
+        "tags": ["Branches"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "address", "phone", "email"],
+                "properties": {
+                  "name": {
+                    "type": "object",
+                    "required": ["en", "ar"],
+                    "properties": {
+                      "en": { "type": "string" },
+                      "ar": { "type": "string" }
+                    }
+                  },
+                  "address": {
+                    "type": "object",
+                    "required": ["en", "ar"],
+                    "properties": {
+                      "en": { "type": "string" },
+                      "ar": { "type": "string" }
+                    }
+                  },
+                  "phone": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "location": {
+                    "type": "object",
+                    "properties": {
+                      "type": { "type": "string", "enum": ["Point"] },
+                      "coordinates": { "type": "array", "items": { "type": "number" } }
+                    }
+                  },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Branch created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Branch" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/branches/{id}": {
+      "get": {
+        "summary": "Get branch by ID",
+        "tags": ["Branches"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Branch details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Branch" } } } },
+          "404": { "description": "Branch not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "put": {
+        "summary": "Update branch",
+        "tags": ["Branches"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "object" },
+                  "address": { "type": "object" },
+                  "phone": { "type": "string" },
+                  "email": { "type": "string" },
+                  "location": { "type": "object" },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Branch updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Branch" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete branch",
+        "tags": ["Branches"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Branch deleted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/branches/{id}/status": {
+      "patch": {
+        "summary": "Update branch status",
+        "tags": ["Branches"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["isActive"],
+                "properties": {
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Branch status updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Branch" } } } },
+          "401": { "description": "Not authorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Forbidden - Admin only", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check endpoint",
+        "tags": ["Health"],
+        "responses": {
+          "200": {
+            "description": "API is running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    { "name": "Authentication", "description": "User authentication endpoints" },
+    { "name": "Users", "description": "User profile management" },
+    { "name": "Products", "description": "Product management" },
+    { "name": "Categories", "description": "Category management" },
+    { "name": "Orders", "description": "Order management" },
+    { "name": "Reservations", "description": "Reservation management" },
+    { "name": "Reviews", "description": "Review management" },
+    { "name": "Loyalty", "description": "Loyalty program management" },
+    { "name": "Rewards", "description": "Reward management" },
+    { "name": "Branches", "description": "Branch management" },
+    { "name": "Health", "description": "Health check endpoint" }
+  ]
+}

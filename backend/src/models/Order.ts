@@ -98,4 +98,11 @@ const OrderSchema: Schema = new Schema(
   }
 );
 
+// Indexes for performance
+OrderSchema.index({ customer: 1 }); // For user order queries
+OrderSchema.index({ orderStatus: 1 }); // For status filtering
+OrderSchema.index({ createdAt: -1 }); // For sorting recent orders
+OrderSchema.index({ customer: 1, createdAt: -1 }); // Compound index for user orders
+OrderSchema.index({ orderStatus: 1, createdAt: -1 }); // Compound index for admin status queries
+
 export default mongoose.model<IOrderDocument>('Order', OrderSchema);

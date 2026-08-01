@@ -39,4 +39,12 @@ const CategorySchema: Schema = new Schema(
   }
 );
 
+// Indexes for performance
+CategorySchema.index({ slug: 1 }); // Already unique, but explicit for clarity
+CategorySchema.index({ type: 1 }); // For type filtering
+CategorySchema.index({ isActive: 1 }); // For active filtering
+CategorySchema.index({ displayOrder: 1 }); // For sorting
+CategorySchema.index({ isActive: 1, displayOrder: 1 }); // Compound index for active categories
+CategorySchema.index({ type: 1, isActive: 1 }); // Compound index for type queries
+
 export default mongoose.model<ICategoryDocument>('Category', CategorySchema);

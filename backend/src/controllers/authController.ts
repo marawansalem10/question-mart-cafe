@@ -15,6 +15,10 @@ export const register = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Please add name, email and password' });
     }
 
+    if (password.length < 8) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters' });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -57,7 +61,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Please add email and password' });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }

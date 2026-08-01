@@ -22,7 +22,7 @@ export const createReview = async (req: Request, res: Response) => {
     }
 
     // Validate product ID
-    if (!mongoose.Types.ObjectId.isValid(product)) {
+    if (!isValidObjectId(product)) {
       return res.status(400).json({ message: 'Invalid product ID' });
     }
 

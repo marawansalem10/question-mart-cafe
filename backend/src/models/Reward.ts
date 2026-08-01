@@ -30,4 +30,9 @@ const RewardSchema: Schema = new Schema(
   }
 );
 
+// Indexes for performance
+RewardSchema.index({ isActive: 1 }); // For active filtering
+RewardSchema.index({ pointsRequired: 1 }); // For points filtering
+RewardSchema.index({ isActive: 1, pointsRequired: 1 }); // Compound index for available rewards
+
 export default mongoose.model<IRewardDocument>('Reward', RewardSchema);

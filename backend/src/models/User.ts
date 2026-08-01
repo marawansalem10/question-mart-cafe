@@ -22,7 +22,8 @@ const UserSchema: Schema = new Schema(
     password: {
       type: String,
       required: [true, 'Please add a password'],
-      minlength: 6,
+      minlength: 8,
+      select: false,
     },
     phone: String,
     role: {
@@ -40,5 +41,10 @@ const UserSchema: Schema = new Schema(
     timestamps: true,
   }
 );
+
+// Indexes for performance
+UserSchema.index({ email: 1 }); // Already unique, but explicit for clarity
+UserSchema.index({ role: 1 }); // For admin queries
+UserSchema.index({ createdAt: -1 }); // For sorting recent users
 
 export default mongoose.model<IUserDocument>('User', UserSchema);

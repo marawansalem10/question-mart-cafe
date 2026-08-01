@@ -4,7 +4,7 @@ import Reward from '../models/Reward';
 import Loyalty from '../models/Loyalty';
 import PointsTransaction from '../models/PointsTransaction';
 import mongoose from 'mongoose';
-import { calculateMembershipLevel, isValidObjectId } from '../utils/helpers';
+import { calculateMembershipLevel, generateQRCode, isValidObjectId } from '../utils/helpers';
 
 // @desc    Get all active rewards
 // @route   GET /api/rewards
@@ -152,7 +152,7 @@ export const redeemReward = async (req: Request, res: Response) => {
       loyalty = await Loyalty.create({
         customer: req.user._id,
         membershipLevel: 'bronze',
-        qrCode: `QMC-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        qrCode: generateQRCode(),
         points: 0,
       });
     }

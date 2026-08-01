@@ -54,4 +54,12 @@ const ProductSchema: Schema = new Schema(
   }
 );
 
+// Indexes for performance
+ProductSchema.index({ category: 1 }); // For category queries
+ProductSchema.index({ isAvailable: 1 }); // For availability filtering
+ProductSchema.index({ displayOrder: 1 }); // For sorting
+ProductSchema.index({ isAvailable: 1, displayOrder: 1 }); // Compound index for available products
+ProductSchema.index({ isFeatured: 1 }); // For featured products
+ProductSchema.index({ tags: 1 }); // For tag searches
+
 export default mongoose.model<IProductDocument>('Product', ProductSchema);

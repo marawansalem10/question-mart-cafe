@@ -35,4 +35,11 @@ const ReviewSchema: Schema = new Schema(
   }
 );
 
+// Indexes for performance
+ReviewSchema.index({ customer: 1 }); // For user review queries
+ReviewSchema.index({ product: 1 }); // For product review queries
+ReviewSchema.index({ isApproved: 1 }); // For approval filtering
+ReviewSchema.index({ product: 1, isApproved: 1 }); // Compound index for approved product reviews
+ReviewSchema.index({ createdAt: -1 }); // For sorting recent reviews
+
 export default mongoose.model<IReviewDocument>('Review', ReviewSchema);

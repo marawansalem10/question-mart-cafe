@@ -33,4 +33,10 @@ const LoyaltySchema: Schema = new Schema(
   }
 );
 
+// Indexes for performance
+LoyaltySchema.index({ customer: 1 }); // Already unique, but explicit for clarity
+LoyaltySchema.index({ qrCode: 1 }); // Already unique, but explicit for clarity
+LoyaltySchema.index({ membershipLevel: 1 }); // For membership filtering
+LoyaltySchema.index({ points: -1 }); // For leaderboard queries
+
 export default mongoose.model<ILoyaltyDocument>('Loyalty', LoyaltySchema);
