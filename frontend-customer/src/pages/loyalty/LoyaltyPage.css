@@ -1,0 +1,923 @@
+/**
+ * Question Mart & Cafe - Loyalty Page Styles
+ * Luxury, warm, premium loyalty experience
+ */
+
+/* ========================================
+   PAGE LAYOUT
+   ======================================== */
+
+.page--loyalty {
+  min-height: 100vh;
+  background-color: var(--color-warm-ivory);
+  padding: var(--space-8) 0;
+}
+
+.loyalty-page__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  animation: fadeIn var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+.loyalty-page__title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-display-md);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-dark-coffee);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-4);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.loyalty-page__subtitle {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut);
+  line-height: var(--line-height-normal);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ========================================
+   MEMBERSHIP OVERVIEW
+   ======================================== */
+
+.loyalty-page__overview {
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  margin-bottom: var(--space-8);
+  box-shadow: var(--shadow-md);
+  animation: slideUp var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+.loyalty-page__membership {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-walnut-100);
+}
+
+/* ========================================
+   MEMBERSHIP BADGE
+   ======================================== */
+
+.membership-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.membership-badge--bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #b87333 100%);
+  color: var(--color-text-inverse);
+}
+
+.membership-badge--silver {
+  background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
+  color: var(--color-text-primary);
+}
+
+.membership-badge--gold {
+  background: linear-gradient(135deg, #ffd700 0%, #daa520 100%);
+  color: var(--color-text-primary);
+}
+
+.membership-badge--platinum {
+  background: linear-gradient(135deg, #e5e4e2 0%, #c0c0c0 100%);
+  color: var(--color-text-primary);
+}
+
+.membership-badge__icon {
+  font-size: var(--font-size-h4);
+}
+
+.membership-badge__name {
+  font-size: var(--font-size-body-sm);
+}
+
+/* ========================================
+   POINTS BALANCE
+   ======================================== */
+
+.points-balance {
+  text-align: right;
+}
+
+.points-balance__label {
+  display: block;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-walnut-500);
+  margin-bottom: var(--space-1);
+}
+
+.points-balance__value {
+  display: block;
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-caramel-gold);
+  line-height: var(--line-height-tight);
+}
+
+/* ========================================
+   LOYALTY PROGRESS
+   ======================================== */
+
+.loyalty-progress {
+  animation: fadeIn var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.loyalty-progress__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.loyalty-progress__label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-walnut);
+}
+
+.loyalty-progress__points {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-caramel-gold);
+}
+
+.loyalty-progress__bar {
+  height: 8px;
+  background: var(--color-walnut-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.loyalty-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-caramel-400) 0%, var(--color-caramel-600) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+.loyalty-progress__platinum {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: linear-gradient(135deg, var(--color-caramel-50) 0%, var(--color-caramel-100) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-caramel-300);
+}
+
+.loyalty-progress__platinum-badge {
+  font-size: var(--font-size-h3);
+  color: var(--color-caramel-700);
+}
+
+.loyalty-progress__platinum-text {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-caramel-700);
+}
+
+/* ========================================
+   QR CODE DISPLAY
+   ======================================== */
+
+.qr-code-display {
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  margin-bottom: var(--space-8);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  animation: slideUp var(--transition-duration-slow) var(--transition-ease-out);
+  animation-delay: var(--transition-duration-base);
+}
+
+.qr-code-display__header {
+  margin-bottom: var(--space-6);
+}
+
+.qr-code-display__title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-dark-coffee);
+  margin-bottom: var(--space-2);
+}
+
+.qr-code-display__subtitle {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut);
+}
+
+.qr-code-display__code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-code-display__placeholder {
+  width: 200px;
+  height: 200px;
+  background: var(--color-warm-ivory);
+  border: 2px dashed var(--color-walnut-200);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-code-display__text {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-walnut);
+  word-break: break-all;
+  text-align: center;
+  padding: var(--space-4);
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+
+.loyalty-page__section {
+  margin-bottom: var(--space-12);
+  animation: slideUp var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+.loyalty-page__section-title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-dark-coffee);
+  margin-bottom: var(--space-6);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+/* ========================================
+   REWARD GRID
+   ======================================== */
+
+.reward-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+/* ========================================
+   REWARD CARD
+   ======================================== */
+
+.reward-card {
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-duration-base) var(--transition-ease-out),
+              box-shadow var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.reward-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.reward-card__image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--color-warm-ivory);
+  overflow: hidden;
+}
+
+.reward-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+.reward-card:hover .reward-card__image img {
+  transform: scale(1.05);
+}
+
+.reward-card__content {
+  padding: var(--space-5);
+}
+
+.reward-card__name {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-dark-coffee);
+  margin-bottom: var(--space-2);
+  line-height: var(--line-height-snug);
+}
+
+.reward-card__description {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut);
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-normal);
+}
+
+.reward-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-walnut-100);
+}
+
+.reward-card__points {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-caramel-gold);
+}
+
+.reward-card__redeem {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-caramel-gold);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.reward-card__redeem:hover:not(:disabled) {
+  background: var(--color-caramel-600);
+}
+
+.reward-card__redeem:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reward-card__insufficient {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-walnut-500);
+}
+
+/* ========================================
+   MODAL
+   ======================================== */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(45, 31, 15, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-index-modal-backdrop);
+  animation: fadeIn var(--transition-duration-base) var(--transition-ease-out);
+  padding: var(--space-4);
+}
+
+.modal {
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-2xl);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-2xl);
+  animation: modalContentScale var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--color-walnut-100);
+}
+
+.modal__title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-dark-coffee);
+  margin: 0;
+}
+
+.modal__close {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-h2);
+  color: var(--color-walnut);
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-duration-base) var(--transition-ease-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__close:hover {
+  background: var(--color-walnut-50);
+}
+
+.modal__body {
+  padding: var(--space-6);
+}
+
+.modal__footer {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: flex-end;
+  padding: var(--space-6);
+  border-top: 1px solid var(--color-walnut-100);
+}
+
+/* ========================================
+   REDEMPTION MODAL
+   ======================================== */
+
+.redemption-modal__image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--color-warm-ivory);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.redemption-modal__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.redemption-modal__name {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-dark-coffee);
+  margin-bottom: var(--space-2);
+}
+
+.redemption-modal__description {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut);
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-normal);
+}
+
+.redemption-modal__points {
+  background: var(--color-warm-ivory);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.redemption-modal__points-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+}
+
+.redemption-modal__points-row--highlight {
+  border-top: 1px solid var(--color-walnut-100);
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  font-weight: var(--font-weight-semibold);
+}
+
+.redemption-modal__points-label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-walnut);
+}
+
+.redemption-modal__points-value {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-dark-coffee);
+}
+
+.redemption-modal__error {
+  background: var(--color-danger-50);
+  border: 1px solid var(--color-danger-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  color: var(--color-danger-700);
+}
+
+.redemption-modal__error strong {
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.redemption-modal__error p {
+  margin: 0;
+  font-size: var(--font-size-body-sm);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn {
+  padding: var(--space-3) var(--space-6);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.btn--primary {
+  background: var(--color-caramel-gold);
+  color: var(--color-text-inverse);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-caramel-600);
+}
+
+.btn--secondary {
+  background: var(--color-walnut-200);
+  color: var(--color-dark-coffee);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: var(--color-walnut-300);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   REDEMPTION HISTORY
+   ======================================== */
+
+.redemption-history {
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.redemption-history--empty {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+}
+
+.redemption-history__empty-icon {
+  font-size: 48px;
+  margin-bottom: var(--space-4);
+}
+
+.redemption-history__empty-title {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-walnut);
+  margin-bottom: var(--space-2);
+}
+
+.redemption-history__empty-subtitle {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut-500);
+}
+
+.redemption-history__title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-dark-coffee);
+  margin-bottom: var(--space-6);
+}
+
+.redemption-history__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.redemption-history__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--color-warm-ivory);
+  border-radius: var(--radius-lg);
+}
+
+.redemption-history__item-content {
+  flex: 1;
+}
+
+.redemption-history__description {
+  display: block;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-dark-coffee);
+  margin-bottom: var(--space-1);
+}
+
+.redemption-history__date {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut-500);
+}
+
+.redemption-history__item-amount {
+  text-align: right;
+  margin-left: var(--space-4);
+}
+
+.redemption-history__points {
+  display: block;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-danger-700);
+}
+
+.redemption-history__label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-walnut-500);
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+}
+
+.empty-state__icon {
+  font-size: 48px;
+  margin-bottom: var(--space-4);
+}
+
+.empty-state__title {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-walnut);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state__subtitle {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut-500);
+  margin-bottom: var(--space-6);
+}
+
+.empty-state__action {
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-caramel-gold);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.empty-state__action:hover {
+  background: var(--color-caramel-600);
+}
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+.loading-state {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+}
+
+.loading-state__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-walnut-100);
+  border-top-color: var(--color-caramel-gold);
+  border-radius: 50%;
+  margin: 0 auto var(--space-4);
+  animation: spin 1s linear infinite;
+}
+
+.loading-state__message {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   ERROR STATE
+   ======================================== */
+
+.error-state {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+}
+
+.error-state__icon {
+  font-size: 48px;
+  margin-bottom: var(--space-4);
+}
+
+.error-state__title {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-danger-700);
+  margin-bottom: var(--space-2);
+}
+
+.error-state__message {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut);
+  margin-bottom: var(--space-6);
+}
+
+.error-state__retry {
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-caramel-gold);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.error-state__retry:hover {
+  background: var(--color-caramel-600);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  .loyalty-page__title {
+    font-size: var(--font-size-h1);
+  }
+
+  .loyalty-page__overview {
+    padding: var(--space-6);
+  }
+
+  .loyalty-page__membership {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .points-balance {
+    text-align: left;
+  }
+
+  .qr-code-display {
+    padding: var(--space-6);
+  }
+
+  .qr-code-display__placeholder {
+    width: 160px;
+    height: 160px;
+  }
+
+  .reward-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    margin: var(--space-4);
+  }
+
+  .modal__footer {
+    flex-direction: column;
+  }
+
+  .modal__footer .btn {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   RTL SUPPORT
+   ======================================== */
+
+[dir='rtl'] .loyalty-page__membership {
+  flex-direction: row-reverse;
+}
+
+[dir='rtl'] .points-balance {
+  text-align: left;
+}
+
+[dir='rtl'] .redemption-history__item-amount {
+  margin-left: 0;
+  margin-right: var(--space-4);
+}
+
+[dir='rtl'] .modal__close {
+  transform: scaleX(-1);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalContentScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

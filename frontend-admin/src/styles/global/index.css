@@ -1,0 +1,139 @@
+/**
+ * Question Mart & Cafe - Admin Global Styles
+ * Main entry point for all global styles
+ */
+
+@import '../theme/tokens.css';
+@import './reset.css';
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+html {
+  scroll-padding-top: var(--space-16);
+}
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-background-primary);
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container-7xl);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+@media (min-width: 80rem) {
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* ========================================
+   ANIMATION UTILITIES
+   ======================================== */
+
+.fade-in {
+  animation: fadeIn var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation: slideUp var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   LOADING STATES
+   ======================================== */
+
+.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ========================================
+   ERROR STATES
+   ======================================== */
+
+.error {
+  color: var(--color-danger-700);
+}
+
+/* ========================================
+   SUCCESS STATES
+   ======================================== */
+
+.success {
+  color: var(--color-success-700);
+}

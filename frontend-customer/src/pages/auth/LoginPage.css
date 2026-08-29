@@ -1,0 +1,130 @@
+/**
+ * Question Mart & Cafe - LoginPage Styles
+ * Minimal login page using existing design system
+ */
+
+.page--login {
+  min-height: 100vh;
+  background-color: var(--color-warm-ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) 0;
+}
+
+.login-page {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-lg);
+}
+
+.login-page__header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.login-page__title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-dark-coffee);
+  margin-bottom: var(--space-3);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.login-page__subtitle {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-walnut);
+  line-height: var(--line-height-normal);
+}
+
+.login-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.login-page__error {
+  background: var(--color-danger-50);
+  border: 1px solid var(--color-danger-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  color: var(--color-danger-700);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  text-align: center;
+}
+
+.login-page__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.login-page__label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-walnut);
+}
+
+.login-page__input {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-walnut-200);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  color: var(--color-dark-coffee);
+  background: var(--color-surface-primary);
+  transition: border-color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.login-page__input:focus {
+  outline: none;
+  border-color: var(--color-caramel-gold);
+}
+
+.login-page__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.login-page__button {
+  padding: var(--space-4);
+  background: var(--color-caramel-gold);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background-color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.login-page__button:hover:not(:disabled) {
+  background: var(--color-caramel-600);
+}
+
+.login-page__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-page {
+    padding: var(--space-6);
+    margin: var(--space-4);
+  }
+
+  .login-page__title {
+    font-size: var(--font-size-h3);
+  }
+}

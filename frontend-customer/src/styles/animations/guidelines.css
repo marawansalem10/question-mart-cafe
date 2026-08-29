@@ -1,0 +1,507 @@
+/**
+ * Question Mart & Cafe - Animation Guidelines
+ * Elegant, subtle animations for luxury brand feel
+ */
+
+/* ========================================
+   ANIMATION PRINCIPLES
+   ========================================
+   - Subtle, never exaggerated
+   - Smooth, never jarring
+   - Purposeful, never decorative
+   - Fast enough to feel responsive
+   - Slow enough to be elegant
+   ======================================== */
+
+/* ========================================
+   TRANSITION DURATIONS
+   ======================================== */
+
+.transition-fast {
+  transition-duration: var(--transition-duration-fast);
+}
+
+.transition-base {
+  transition-duration: var(--transition-duration-base);
+}
+
+.transition-slow {
+  transition-duration: var(--transition-duration-slow);
+}
+
+.transition-slower {
+  transition-duration: var(--transition-duration-slower);
+}
+
+/* ========================================
+   TRANSITION EASING
+   ======================================== */
+
+.ease-in {
+  transition-timing-function: var(--transition-ease-in);
+}
+
+.ease-out {
+  transition-timing-function: var(--transition-ease-out);
+}
+
+.ease-in-out {
+  transition-timing-function: var(--transition-ease-in-out);
+}
+
+/* ========================================
+   HOVER ANIMATIONS
+   ======================================== */
+
+/* Subtle scale on hover */
+.hover-scale {
+  transition: transform var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.hover-scale:hover {
+  transform: scale(var(--transform-scale-sm));
+}
+
+.hover-scale-md:hover {
+  transform: scale(var(--transform-scale-md));
+}
+
+.hover-scale-lg:hover {
+  transform: scale(var(--transform-scale-lg));
+}
+
+/* Subtle lift on hover */
+.hover-lift {
+  transition: transform var(--transition-duration-base) var(--transition-ease-out),
+              box-shadow var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Color transition on hover */
+.hover-color {
+  transition: color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.hover-bg {
+  transition: background-color var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* ========================================
+   SCROLL ANIMATIONS
+   ======================================== */
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fade in on scroll */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--transition-duration-slower) var(--transition-ease-out);
+}
+
+/* Fade in on scroll */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-duration-slower) var(--transition-ease-out);
+}
+
+/* ========================================
+   FADE ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.fade-out {
+  animation: fadeOut var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* ========================================
+   REVEAL ANIMATIONS
+   ======================================== */
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes revealRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.reveal-up {
+  animation: revealUp var(--transition-duration-slower) var(--transition-ease-out);
+}
+
+.reveal-down {
+  animation: revealDown var(--transition-duration-slower) var(--transition-ease-out);
+}
+
+.reveal-left {
+  animation: revealLeft var(--transition-duration-slower) var(--transition-ease-out);
+}
+
+.reveal-right {
+  animation: revealRight var(--transition-duration-slower) var(--transition-ease-out);
+}
+
+/* ========================================
+   IMAGE TRANSITIONS
+   ======================================== */
+
+/* Subtle zoom on hover */
+.image-zoom {
+  overflow: hidden;
+}
+
+.image-zoom img {
+  transition: transform var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+.image-zoom:hover img {
+  transform: scale(var(--transform-scale-md));
+}
+
+/* Fade in image load */
+@keyframes imageLoad {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image-load {
+  animation: imageLoad var(--transition-duration-slower) var(--transition-ease-out);
+}
+
+/* ========================================
+   BUTTON INTERACTIONS
+   ======================================== */
+
+/* Subtle press effect */
+.button-press {
+  transition: transform var(--transition-duration-fast) var(--transition-ease-in);
+}
+
+.button-press:active {
+  transform: scale(0.98);
+}
+
+/* Ripple effect (for future implementation) */
+@keyframes ripple {
+  from {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   CARD INTERACTIONS
+   ======================================== */
+
+/* Subtle lift and shadow */
+.card-hover {
+  transition: transform var(--transition-duration-base) var(--transition-ease-out),
+              box-shadow var(--transition-duration-base) var(--transition-ease-out);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ========================================
+   NAVIGATION TRANSITIONS
+   ======================================== */
+
+/* Page transition */
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageIn var(--transition-duration-slow) var(--transition-ease-out);
+}
+
+/* ========================================
+   LOADING ANIMATIONS
+   ======================================== */
+
+/* Elegant spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Skeleton loading shimmer */
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-background-tertiary) 0%,
+    var(--color-background-secondary) 50%,
+    var(--color-background-tertiary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ========================================
+   MODAL ANIMATIONS
+   ======================================== */
+
+/* Modal backdrop fade */
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-backdrop-enter {
+  animation: modalBackdropFadeIn var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* Modal content scale */
+@keyframes modalContentScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-content-enter {
+  animation: modalContentScale var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* ========================================
+   DRAWER ANIMATIONS
+   ======================================== */
+
+/* Drawer slide from right */
+@keyframes drawerSlideRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawer-right-enter {
+  animation: drawerSlideRight var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* Drawer slide from left */
+@keyframes drawerSlideLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawer-left-enter {
+  animation: drawerSlideLeft var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* ========================================
+   TOAST ANIMATIONS
+   ======================================== */
+
+/* Toast slide in */
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-enter {
+  animation: toastSlideIn var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* Toast slide out */
+@keyframes toastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.toast-exit {
+  animation: toastSlideOut var(--transition-duration-base) var(--transition-ease-out);
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATION
+   ======================================== */
+
+/* Hardware acceleration for transforms */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* GPU acceleration hints */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
