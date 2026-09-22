@@ -3,4 +3,8 @@
  * Main entry point for all styles
  */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import './global/index.css';

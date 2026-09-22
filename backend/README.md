@@ -69,49 +69,48 @@ npm start
 
 ## Environment Variables
 
-Create a `.env` file with the following variables:
+Copy `.env.example` to `.env` and fill in local values. Never commit `.env` or real credentials.
 
-```env
-# Environment Configuration
-NODE_ENV=development
-PORT=5000
+Required:
 
-# Database Configuration
-# IMPORTANT: Change this to your actual MongoDB connection string
-# Format: mongodb+srv://<username>:<password>@<cluster>/<database>?retryWrites=true&w=majority
-MONGODB_URI=mongodb+srv://questionmartadmin:QuestionMart2026Secure@question-mart-cluster.xyhe2ft.mongodb.net/question_mart_cafe?retryWrites=true&w=majority&appName=question-mart-cluster
+- `MONGODB_URI` - MongoDB connection string
+- `JWT_SECRET` - JWT signing secret
+- `JWT_EXPIRE` - JWT expiration time (format: `30d`, `1h`, `30m`)
 
-# JWT Configuration
-# IMPORTANT: Generate a strong random secret for production
-# Use: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-JWT_EXPIRE=30d
-```
+Always used:
 
-### Environment Variable Validation
+- `PORT` - Listen port (optional locally, default: `5000`). Production hosts such as Railway inject this.
+- `NODE_ENV` - Environment mode (optional, default: `development`). Use `production` on Railway.
+- `FRONTEND_URL` - Comma-separated frontend origins for CORS. **Required when `NODE_ENV=production`.** Include both the customer and admin origins, for example `http://localhost:3000,http://localhost:3001` in local files. Set deployed origins in the host environment; do not commit production URLs as secrets.
 
-The application validates required environment variables on startup:
-- `MONGODB_URI` - MongoDB connection string (required)
-- `JWT_SECRET` - JWT signing secret (required)
-- `JWT_EXPIRE` - JWT expiration time (required, format: `30d`, `1h`, `30m`)
-- `PORT` - Server port (optional, default: 5000)
-- `NODE_ENV` - Environment mode (optional, default: development)
-
-**Security Note**: In production, the application will fail to start if `JWT_SECRET` is still set to the default placeholder value.
+**Security notes**:
+- In production, the application will fail to start if `JWT_SECRET` is still a documented placeholder value.
+- In production, the application will fail to start if `FRONTEND_URL` is missing or empty (CORS is not left open).
 
 ## Available Scripts
 
 - `npm run dev` - Start development server with hot reload
-- `npm run build` - Compile TypeScript to JavaScript
-- `npm start` - Start production server
-- `npm run seed` - Seed database with sample categories and products
+- `npm run build` - Compile TypeScript to JavaScript (`dist/server.js`)
+- `npm start` - Start production server (`node dist/server.js`)
+- `npm run seed` - Seed database with sample categories and products (local/dev only; not used by Railway start)
+
+## Railway (backend service)
+
+This repository is not an npm-workspaces monorepo. Configure the Railway **backend** service with:
+
+- **Root / service directory:** `backend/`
+- **Build command:** `npm run build` (Nixpacks runs the `build` script from `backend/package.json`)
+- **Start command:** `npm start` (`node dist/server.js`)
+- **Node:** `>=18` (`engines` in `backend/package.json`)
+
+Set `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRE`, `NODE_ENV=production`, and `FRONTEND_URL` in the Railway service variables. Railway provides `PORT`. Do not add a Dockerfile unless a later phase requires it.
 
 ## API Overview
 
 ### Base URL
 
 - Development: `http://localhost:5000`
-- Production: `https://api.questionmartcafe.com`
+- Production: the public URL assigned by the hosting platform (for example Railway)
 
 ### Authentication
 

@@ -19,6 +19,12 @@ import config from './config/env';
 
 const app = express();
 
+// Railway (and other reverse proxies) set X-Forwarded-For.
+// Without this, req.ip is the proxy address and rate limits collapse all clients into one bucket.
+if (config.nodeEnv === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: config.nodeEnv === 'production' ? undefined : false,
@@ -26,9 +32,7 @@ app.use(helmet({
 
 // CORS configuration
 app.use(cors({
-  origin: config.nodeEnv === 'production' 
-    ? process.env.FRONTEND_URL?.split(',') 
-    : '*',
+  origin: config.nodeEnv === 'production' ? config.frontendOrigins : '*',
   credentials: true,
 }));
 

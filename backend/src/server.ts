@@ -1,18 +1,24 @@
 
 import app from './app';
-import connectDB from './config/database';
+import connectDB, { disconnectDB } from './config/database';
 import config from './config/env';
 
-const server = app.listen(config.port, () => {
-  console.log(`Server running on port ${config.port} in ${config.nodeEnv} mode`);
+const server = app.listen(config.port, config.host, () => {
+  console.log(`Server running on ${config.host}:${config.port} in ${config.nodeEnv} mode`);
 });
 
 // Graceful shutdown handling
 const gracefulShutdown = async (signal: string) => {
   console.log(`\n${signal} received. Starting graceful shutdown...`);
   
-  server.close(() => {
+  server.close(async () => {
     console.log('HTTP server closed');
+    try {
+      await disconnectDB();
+      console.log('MongoDB connection closed');
+    } catch (error) {
+      console.error('Error closing MongoDB connection:', error);
+    }
     process.exit(0);
   });
 
